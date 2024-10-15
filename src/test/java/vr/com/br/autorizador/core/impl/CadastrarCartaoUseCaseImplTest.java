@@ -7,7 +7,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import vr.com.br.autorizador.core.domain.Cartao;
 import vr.com.br.autorizador.core.domain.repository.CartaoRepository;
-import vr.com.br.autorizador.core.usecase.CadastrarCartaoUseCase;
 import vr.com.br.autorizador.core.usecase.CadastrarCartaoUseCaseImpl;
 import vr.com.br.autorizador.core.usecase.input.CadastrarCartaoInput;
 
