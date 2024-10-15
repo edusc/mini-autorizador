@@ -3,8 +3,11 @@ package vr.com.br.autorizador.infrastructure.database.service;
 import vr.com.br.autorizador.core.domain.Cartao;
 import vr.com.br.autorizador.core.domain.repository.CartaoRepository;
 import vr.com.br.autorizador.entrypoint.exception.CartaoDuplicadoException;
+import vr.com.br.autorizador.entrypoint.exception.CartaoNaoEncontradoException;
 import vr.com.br.autorizador.infrastructure.database.model.CartaoModel;
 import vr.com.br.autorizador.infrastructure.database.repository.CartaoMongoRepository;
+
+import java.math.BigDecimal;
 
 /**
  * Classe que implementa as ações de integração com o banco de dados relativos a Cartões
@@ -34,5 +37,15 @@ public class CartaoRepositoryImpl implements CartaoRepository {
         }
 
         return cartao;
+    }
+
+    /**
+     * {@inheritDoc}
+     * */
+    @Override
+    public BigDecimal obterSaldoCartao(String numeroCartao) {
+        return cartaoMongoRepository.findSaldoByNumeroCartao(numeroCartao)
+                .orElseThrow(() -> new CartaoNaoEncontradoException("Cartão não encontrado"))
+                .getSaldo();
     }
 }

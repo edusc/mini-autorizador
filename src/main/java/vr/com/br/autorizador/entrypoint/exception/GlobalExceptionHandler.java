@@ -32,9 +32,15 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) // 500 Internal Server Error
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<String> handleGeneralException(Exception e) {
         String message = "Erro interno do servidor: " + e.getMessage();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+    }
+
+    @ExceptionHandler(CartaoNaoEncontradoException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<String> handleCartaoNaoEncontradoException(CartaoNaoEncontradoException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 }
