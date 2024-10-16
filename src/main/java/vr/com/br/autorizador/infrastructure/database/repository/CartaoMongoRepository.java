@@ -8,7 +8,8 @@ import java.util.Optional;
 
 
 public interface CartaoMongoRepository extends MongoRepository<CartaoModel, String> {
-    @Query(value = "{ 'numeroCartao': ?0 }", fields = "{ 'saldo' : 1 }")
-    Optional<CartaoModel> findSaldoByNumeroCartao(String numeroCartao);
+
+    @Query(value = "{ 'numeroCartao': ?0 }")
+    Optional<CartaoModel> findByNumeroCartao(String numeroCartao);
 
 }

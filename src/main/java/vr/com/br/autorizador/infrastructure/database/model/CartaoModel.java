@@ -3,6 +3,7 @@ package vr.com.br.autorizador.infrastructure.database.model;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import vr.com.br.autorizador.core.domain.Cartao;
@@ -24,6 +25,11 @@ public class CartaoModel {
     private String numeroCartao;
     private String senha;
     private BigDecimal saldo;
+    /**
+     * Version utilizado para mitigar problemas de concorrencia.
+     * */
+    @Version
+    private Long version;
 
     /**
      * Converte um objeto de negócio em um objeto de banco de dados

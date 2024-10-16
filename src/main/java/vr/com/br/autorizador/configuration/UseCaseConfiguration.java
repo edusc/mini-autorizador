@@ -7,6 +7,8 @@ import vr.com.br.autorizador.core.usecase.CadastrarCartaoUseCase;
 import vr.com.br.autorizador.core.usecase.CadastrarCartaoUseCaseImpl;
 import vr.com.br.autorizador.core.usecase.ObterSaldoCartaoUseCase;
 import vr.com.br.autorizador.core.usecase.ObterSaldoCartaoUseCaseImpl;
+import vr.com.br.autorizador.core.usecase.RealizarTransacaoUseCase;
+import vr.com.br.autorizador.core.usecase.RealizarTransacaoUseCaseImpl;
 
 /**
  * Classe responsável por fornecer Beans injetados na camada de user case
@@ -23,5 +25,10 @@ public class UseCaseConfiguration {
     @Bean
     public ObterSaldoCartaoUseCase obterSaldoCartaoUseCase(CartaoRepository cartaoRepository) {
         return new ObterSaldoCartaoUseCaseImpl(cartaoRepository);
+    }
+
+    @Bean
+    public RealizarTransacaoUseCase realizarTransacaoUseCase(CartaoRepository cartaoRepository) {
+        return new RealizarTransacaoUseCaseImpl(cartaoRepository);
     }
 }

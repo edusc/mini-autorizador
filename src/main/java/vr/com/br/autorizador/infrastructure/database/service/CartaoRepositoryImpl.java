@@ -8,6 +8,7 @@ import vr.com.br.autorizador.infrastructure.database.model.CartaoModel;
 import vr.com.br.autorizador.infrastructure.database.repository.CartaoMongoRepository;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 /**
  * Classe que implementa as ações de integração com o banco de dados relativos a Cartões
@@ -16,6 +17,8 @@ import java.math.BigDecimal;
 public class CartaoRepositoryImpl implements CartaoRepository {
 
     private final CartaoMongoRepository cartaoMongoRepository;
+
+    private static final String CARTAO_INEXISTENTE = "CARTAO_INEXISTENTE";
 
     /**
      * Construtor padrão
@@ -33,7 +36,7 @@ public class CartaoRepositoryImpl implements CartaoRepository {
         try{
             cartaoMongoRepository.save(cartaoModel);
         } catch (Exception exception) {
-            throw new CartaoDuplicadoException("Já existe um cartão cadastrado com este número");
+            throw new CartaoDuplicadoException("CARTAO_DUPLICADO");
         }
 
         return cartao;
@@ -44,8 +47,26 @@ public class CartaoRepositoryImpl implements CartaoRepository {
      * */
     @Override
     public BigDecimal obterSaldoCartao(String numeroCartao) {
-        return cartaoMongoRepository.findSaldoByNumeroCartao(numeroCartao)
-                .orElseThrow(() -> new CartaoNaoEncontradoException("Cartão não encontrado"))
+        return cartaoMongoRepository.findByNumeroCartao(numeroCartao)
+                .orElseThrow(() -> new CartaoNaoEncontradoException(CARTAO_INEXISTENTE))
                 .getSaldo();
     }
+
+    @Override
+    public Optional<Cartao> obterCartaoPeloNumero(String numeroCartao) {
+        CartaoModel cartaoModel = cartaoMongoRepository.findByNumeroCartao(numeroCartao)
+                .orElseThrow(() -> new CartaoNaoEncontradoException(CARTAO_INEXISTENTE));
+
+        return Optional.of(Cartao.toDomain(cartaoModel));
+    }
+
+    @Override
+    public void atualizarCartao(Cartao cartao) {
+        CartaoModel cartaoModel = cartaoMongoRepository.findByNumeroCartao(cartao.getNumeroCartao())
+                .orElseThrow(() -> new CartaoNaoEncontradoException(CARTAO_INEXISTENTE));
+
+        cartaoModel.setSaldo(cartao.getSaldo());
+        cartaoMongoRepository.save(cartaoModel);
+    }
+
 }

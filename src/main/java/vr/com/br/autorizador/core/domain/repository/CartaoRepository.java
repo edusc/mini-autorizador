@@ -1,9 +1,8 @@
 package vr.com.br.autorizador.core.domain.repository;
 
 import vr.com.br.autorizador.core.domain.Cartao;
-import vr.com.br.autorizador.infrastructure.database.model.CartaoModel;
-
 import java.math.BigDecimal;
+import java.util.Optional;
 
 /**
  * Classe que define as ações para as operações de cartão
@@ -24,4 +23,14 @@ public interface CartaoRepository {
      * @return  BigDecimal
      * */
     BigDecimal obterSaldoCartao(String numeroCartao);
+
+    /**
+     * Obtém o cartão pelo número informado
+     * @param - numeroCartao
+     * @return Optional<Cartao>
+     * */
+    Optional<Cartao> obterCartaoPeloNumero(String numeroCartao);
+
+    void atualizarCartao(Cartao cartao);
+
 }
